@@ -1,4 +1,4 @@
-package org.lzh.deduplicate;
+package org.lzh.deduplicate.simhash;
 
 import org.lzh.util.MurmurHash;
 import org.nlpcn.commons.lang.tire.GetWord;

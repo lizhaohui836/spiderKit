@@ -1,4 +1,4 @@
-package org.lzh.deduplicate;
+package org.lzh.deduplicate.simhash;
 
 import org.nlpcn.commons.lang.dic.DicManager;
 import org.nlpcn.commons.lang.tire.domain.Forest;
