@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class TrieTree<T> implements Comparable<TrieTree<T>>{
     private TrieTree[] branches = null;
     private char v;
-    //状态 1: 2: 3:到达末端，即代表一个词语
+    //状态 1: 2:某个词语可以到达该节点 3:节点末端
     private int status = 1;
     //其他可拓展参数，用于对字典树上节点增加业务参数
     private T param = null;
@@ -64,7 +64,7 @@ public class TrieTree<T> implements Comparable<TrieTree<T>>{
             }
             tempTrie = tempTrie.branches[index];
         }
-        if(tempTrie.status == 3){
+        if(tempTrie.status == 3 || tempTrie.status == 2){
             return true;
         }
         else{
