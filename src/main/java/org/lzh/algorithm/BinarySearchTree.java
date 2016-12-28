@@ -56,7 +56,8 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * 删除某节点，分三种情况，后两种情况需考虑删除节点是否为root节点
      * 1、如果该节点没有孩子，则直接删除
      * 2、如果该节点有一个孩子，则删除节点，并将该节点的子树与父节点直接关联即可
-     * 3、有两个孩子，不能直接删除该节点，应该找到该节点的后继节点，将后继节点覆盖该节点，并删除后继节点
+     * 3、有两个孩子，不能直接删除该节点，应该找到该节点的后继节点，将后继节点覆盖该节点，并删除后继节点(此时后继节一定是右子树的左孩子
+     * 且该后继节点没有左孩子)
      * @param tree
      * @param node
      * @return
@@ -65,47 +66,36 @@ public class BinarySearchTree<T extends Comparable<T>>{
         if(node == null){
             return null;
         }
-        BSTNoode<T> x = node.parent;
-        BSTNoode<T> y = node;
-        //无孩子
-        if(node.left == null && node.right == null){
-            node = null;
-            return y;
+        BSTNoode<T> y;  //删除的节点
+        BSTNoode<T> x;  //代替node位置的节点
+        //确定要删除的节点y
+        if(node.left == null || node.right == null){
+            y = node;
+        } else {
+            //当有两个孩子时，删除的节点为node的后继节点
+            y = successor(node);
         }
-        //一个孩子
-        else if(!(node.left != null && node.right != null)){
-            if(node.left != null){
-                node.left.parent = x;
-                if(node == node.parent.left){
-                    x.left = node.left;
-                }
-                else {
-                    x.right = node.left;
-                }
-            }
-            else {
-                node.right.parent = x;
-                if(node == node.parent.left){
-                    x.left = node.right;
-                }
-                else {
-                    x.right = node.right;
-                }
-            }
-            return y;
+        if(y.left != null){
+            x = y.left;
+        } else {
+            x = y.right;
         }
-        //两个孩子
+        if(x != null){
+            x.parent = y.parent;
+        }
+        if(y.parent == null){
+            tree.root = x;
+        }
+        else if(y == y.parent.left){
+            y.parent.left = x;
+        }
         else {
-            y = min(node);
-            y.parent = node.parent;
-            if(node == node.parent.left){
-                x.left = y;
-            }
-            else {
-                x.right = y;
-            }
-            return y;
+            y.parent.right = x;
         }
+        if(y != node){
+            node.value = y.value;
+        }
+        return y;
     }
     /**
      * 从node节点开始前序遍历
@@ -170,9 +160,6 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @return sucNode 当前节点的后继节点
      */
     public BSTNoode<T> successor(BSTNoode<T> node){
-        if(node.parent == null){
-            return null;
-        }
         //有右子树
         if(node.right != null){
             //找出最小值的节点
@@ -247,11 +234,11 @@ public class BinarySearchTree<T extends Comparable<T>>{
 
     public static void main(String[] args) {
         BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<Integer>();
-        BSTNoode<Integer> node = new BSTNoode<Integer>(7,null,null,null);
-        binarySearchTree.insert(5);
-        binarySearchTree.insert(1);
-//        binarySearchTree.insert(7);
+        BSTNoode<Integer> node = new BSTNoode<Integer>(5,null,null,null);
+//        binarySearchTree.insert(5);
         binarySearchTree.insert(binarySearchTree, node);
+        binarySearchTree.insert(1);
+        binarySearchTree.insert(7);
         binarySearchTree.insert(9);
         binarySearchTree.insert(2);
         binarySearchTree.insert(3);
@@ -269,5 +256,10 @@ public class BinarySearchTree<T extends Comparable<T>>{
         binarySearchTree.postTraver();
         System.out.println("----------------------------");
         System.out.println("7的后继节点为" + binarySearchTree.successor(node).getValue());
+        binarySearchTree.remove(binarySearchTree,node);
+        System.out.println("----------midTraver---------");
+        binarySearchTree.midTraver();
+        System.out.println("----------------------------");
+
     }
 }
