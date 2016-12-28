@@ -1,4 +1,4 @@
-package com.lzh.algorithm;
+package org.lzh.algorithm;
 
 /**
  * 堆排序

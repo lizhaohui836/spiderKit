@@ -10,6 +10,7 @@ public class MergeSort {
     private void mergeSortUp2Down(int[] a, int start, int end){
         if(a == null || start > end)
             return;
+        //递归终止条件
         if(start < end){
             int mid = (start + end)/2;
             mergeSortUp2Down(a, start, mid);
