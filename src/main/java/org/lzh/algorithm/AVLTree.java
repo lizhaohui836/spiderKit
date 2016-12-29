@@ -14,15 +14,40 @@ package org.lzh.algorithm;
  */
 public class AVLTree<T extends Comparable<T>> {
 
+    AVLTreeNode<T> root;
+
+    /**
+     * LeftLeft情况的旋转
+     * @param node
+     */
+    private void llRotation(AVLTreeNode<T> node){}
+
+    /**
+     * RightRight情况的旋转
+     * @param node
+     */
+    private void rrRotation(AVLTreeNode<T> node){}
+
+    /**
+     * LeftRight情况的旋转
+     * @param node
+     */
+    private void lrRotation(AVLTreeNode<T> node){}
+
+    /**
+     * RightLeft情况的旋转
+     * @param node
+     */
+    private void rlRotation(AVLTreeNode<T> node){}
     class AVLTreeNode<T extends Comparable<T>>{
         T value;
         int height;
         AVLTreeNode<T> left;
         AVLTreeNode<T> right;
 
-        public AVLTreeNode(T value, int height, AVLTreeNode<T> left, AVLTreeNode<T> right){
+        public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right){
             this.value = value;
-            this.height = height;
+            this.height = 0;
             this.left = left;
             this.right = right;
         }
