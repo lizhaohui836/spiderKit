@@ -53,6 +53,16 @@ public class BinarySearchTree<T extends Comparable<T>>{
     }
 
     /**
+     * 删除值为value的节点
+     * @param value 值为value的节点
+     */
+    public void remove(T value){
+        BSTNoode<T> node = search(value);
+        if(node != null){
+            remove(this, node);
+        }
+    }
+    /**
      * 删除某节点，分三种情况，后两种情况需考虑删除节点是否为root节点
      * 1、如果该节点没有孩子，则直接删除
      * 2、如果该节点有一个孩子，则删除节点，并将该节点的子树与父节点直接关联即可
@@ -144,7 +154,22 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @return preNode 前驱节点
      */
     public BSTNoode<T> precursor(BSTNoode<T> node){
-       return null;
+        //有左子树
+        if(node.left != null){
+            //找出最小值的节点
+            return max(node.left);
+        }
+        //没有左子树
+        BSTNoode<T> y = node.parent;
+        BSTNoode<T> x = node;
+        while (y != null){
+            if(y.right == x){
+                return y;
+            }
+            y = y.parent;
+            x = x.parent;
+        }
+        return null;
     }
 
     /**
@@ -210,6 +235,26 @@ public class BinarySearchTree<T extends Comparable<T>>{
         return x;
     }
 
+    /**
+     * 根据value查找对应节点
+     * @param value 待查询的值
+     * @return
+     */
+    private BSTNoode<T> search(T value){
+        BSTNoode<T> x = this.root;
+        while(x != null){
+            if(value.compareTo(x.value) > 0){
+                x = x.right;
+            }
+            else if(value.compareTo(x.value) < 0){
+                x = x.left;
+            }
+            else{
+                break;
+            }
+        }
+        return x;
+    }
     static class BSTNoode<T extends Comparable<T>>{
         T value;
         BSTNoode<T> parent;
@@ -234,11 +279,11 @@ public class BinarySearchTree<T extends Comparable<T>>{
 
     public static void main(String[] args) {
         BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<Integer>();
-        BSTNoode<Integer> node = new BSTNoode<Integer>(5,null,null,null);
-//        binarySearchTree.insert(5);
-        binarySearchTree.insert(binarySearchTree, node);
+        BSTNoode<Integer> node = new BSTNoode<Integer>(7,null,null,null);
+        binarySearchTree.insert(5);
         binarySearchTree.insert(1);
-        binarySearchTree.insert(7);
+//        binarySearchTree.insert(7);
+        binarySearchTree.insert(binarySearchTree, node);
         binarySearchTree.insert(9);
         binarySearchTree.insert(2);
         binarySearchTree.insert(3);
@@ -256,7 +301,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
         binarySearchTree.postTraver();
         System.out.println("----------------------------");
         System.out.println("7的后继节点为" + binarySearchTree.successor(node).getValue());
-        binarySearchTree.remove(binarySearchTree,node);
+        binarySearchTree.remove(1);
         System.out.println("----------midTraver---------");
         binarySearchTree.midTraver();
         System.out.println("----------------------------");
