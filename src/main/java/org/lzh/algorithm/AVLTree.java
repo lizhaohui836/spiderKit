@@ -17,28 +17,70 @@ public class AVLTree<T extends Comparable<T>> {
     AVLTreeNode<T> root;
 
     /**
-     * LeftLeft情况的旋转
-     * @param node
+     * LeftLeft情况的旋转，返回旋转后的根节点
+     * @param node 旋转前根节点（相对）
+     * @return node2 旋转后根节点
      */
-    private void llRotation(AVLTreeNode<T> node){}
+    private AVLTreeNode<T> llRotation(AVLTreeNode<T> node){
+        AVLTreeNode<T> node2 = node.left;
+        node.left = node2.right;
+        node2.right = node;
+
+        node.height = max(height(node.left), height(node.right)) + 1;
+        node2.height = max(height(node2.left), height(node)) + 1;
+        return node2;
+    }
 
     /**
-     * RightRight情况的旋转
-     * @param node
+     * RightRight情况的旋转，返回旋转后的根节点
+     * @param node 旋转前根节点（相对）
+     * @return node2 旋转后根节点
      */
-    private void rrRotation(AVLTreeNode<T> node){}
+    private AVLTreeNode<T> rrRotation(AVLTreeNode<T> node){
+        AVLTreeNode<T> node2 = node.right;
+        node.right = node2.left;
+        node2.left = node;
+
+        node.height = max(height(node.left), height(node.right)) + 1;
+        node2.height = max(height(node2.right), height(node)) + 1;
+        return node2;
+    }
 
     /**
      * LeftRight情况的旋转
-     * @param node
+     * @param node 旋转前根节点（相对）
+     * @return node2 旋转后根节点
      */
-    private void lrRotation(AVLTreeNode<T> node){}
+    private AVLTreeNode<T> lrRotation(AVLTreeNode<T> node){
+        node.left = rrRotation(node.left);
+        return llRotation(node);
+    }
 
     /**
      * RightLeft情况的旋转
-     * @param node
+     * @param node 旋转前根节点（相对）
+     * @return node2 旋转后根节点
      */
-    private void rlRotation(AVLTreeNode<T> node){}
+    private AVLTreeNode<T> rlRotation(AVLTreeNode<T> node){
+        node.right = llRotation(node.right);
+        return rrRotation(node);
+    }
+
+    /**
+     * 比较a b的大小
+     * @param a
+     * @param b
+     * @return 较大的数
+     */
+    private int max(int a, int b){
+        return a > b ? a : b;
+    }
+    private int height(AVLTreeNode<T> node){
+        if(node != null){
+            return node.height;
+        }
+        return 0;
+    }
     class AVLTreeNode<T extends Comparable<T>>{
         T value;
         int height;
