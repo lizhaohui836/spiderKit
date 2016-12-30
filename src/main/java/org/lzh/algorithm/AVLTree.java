@@ -16,6 +16,20 @@ public class AVLTree<T extends Comparable<T>> {
 
     AVLTreeNode<T> root;
 
+    public AVLTree(){this.root = null;}
+    /**
+     * 插入节点
+     * @param tree
+     * @param node
+     */
+    private void insert(AVLTree<T> tree, AVLTreeNode<T> node){
+        if(tree.root == null){
+            tree.root = node;
+            return;
+        }
+        AVLTreeNode<T> tmp;
+        AVLTreeNode<T> x = tree.root;
+    }
     /**
      * LeftLeft情况的旋转，返回旋转后的根节点
      * @param node 旋转前根节点（相对）
