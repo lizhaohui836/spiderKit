@@ -1,5 +1,6 @@
 package org.lzh.algorithm;
 
+
 /**
  * 二叉查找树
  * 节点前驱：比该节点稍小的节点，即所有比该节点小的节点中最大的节点
@@ -7,10 +8,9 @@ package org.lzh.algorithm;
  * @author lzh
  * @create 2016-12-27 21:29
  */
-public class BinarySearchTree<T extends Comparable<T>>{
-    private BSTNoode<T> root;
+public class BinarySearchTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
     public BinarySearchTree(){
-        this.root = null;
+        super();
     }
 
     /**
@@ -18,13 +18,13 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @param tree 插入的树
      * @param node 待插入的节点
      */
-    private void insert(BinarySearchTree<T> tree, BSTNoode<T> node){
-        if(tree.root == null){
+    private void insert(BinarySearchTree<T> tree, BTNoode<T> node){
+        if(root == null){
             tree.root = node;
             return;
         }
-        BSTNoode<T> tmp = null;
-        BSTNoode<T> x =tree.root;
+        BTNoode<T> tmp = null;
+        BTNoode<T> x =tree.root;
         while(x != null){
             tmp = x;
             if(node.getValue().compareTo(x.getValue()) > 0){
@@ -47,8 +47,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @param value 待插入节点的值
      */
     public void insert(T value){
-        BinarySearchTree<T> tree = this;
-        BSTNoode<T> node = new BSTNoode<T>(value, null, null, null);
+        BTNoode<T> node = new BTNoode<T>(value, null, null, null);
         insert(this, node);
     }
 
@@ -57,7 +56,7 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @param value 值为value的节点
      */
     public void remove(T value){
-        BSTNoode<T> node = search(value);
+        BTNoode<T> node = search(value);
         if(node != null){
             remove(this, node);
         }
@@ -72,12 +71,12 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @param node
      * @return
      */
-    private BSTNoode<T> remove(BinarySearchTree<T> tree, BSTNoode<T> node){
+    private BTNoode<T> remove(BinarySearchTree<T> tree, BTNoode<T> node){
         if(node == null){
             return null;
         }
-        BSTNoode<T> y;  //删除的节点
-        BSTNoode<T> x;  //代替node位置的节点
+        BTNoode<T> y;  //删除的节点
+        BTNoode<T> x;  //代替node位置的节点
         //确定要删除的节点y
         if(node.left == null || node.right == null){
             y = node;
@@ -107,61 +106,21 @@ public class BinarySearchTree<T extends Comparable<T>>{
         }
         return y;
     }
-    /**
-     * 从node节点开始前序遍历
-     * @param node 开始遍历的节点
-     */
-    private void preTraver(BSTNoode<T> node){
-        if(node != null){
-            System.out.println("value: " + node.getValue());
-            preTraver(node.left);
-            preTraver(node.right);
-        }
-    }
-
-    /**
-     * 对二叉查找树进行前序遍历
-     */
-    public void preTraver(){
-        preTraver(root);
-    }
-
-    private void midTraver(BSTNoode<T> node){
-        if(node != null){
-            midTraver(node.left);
-            System.out.println("value: " + node.getValue());
-            midTraver(node.right);
-        }
-    }
-    public void midTraver(){
-        midTraver(root);
-    }
-
-    private void postTraver(BSTNoode<T> node){
-        if(node != null){
-            postTraver(node.left);
-            postTraver(node.right);
-            System.out.println("value: " + node.getValue());
-        }
-    }
-    public void postTraver(){
-        postTraver(root);
-    }
 
     /**
      * 查找节点的前驱节点
      * @param node 当前节点
      * @return preNode 前驱节点
      */
-    public BSTNoode<T> precursor(BSTNoode<T> node){
+    public BTNoode<T> precursor(BTNoode<T> node){
         //有左子树
         if(node.left != null){
             //找出最小值的节点
             return max(node.left);
         }
         //没有左子树
-        BSTNoode<T> y = node.parent;
-        BSTNoode<T> x = node;
+        BTNoode<T> y = node.parent;
+        BTNoode<T> x = node;
         while (y != null){
             if(y.right == x){
                 return y;
@@ -184,15 +143,15 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @param node 当前节点
      * @return sucNode 当前节点的后继节点
      */
-    public BSTNoode<T> successor(BSTNoode<T> node){
+    public BTNoode<T> successor(BTNoode<T> node){
         //有右子树
         if(node.right != null){
             //找出最小值的节点
             return min(node.right);
         }
         //没有右子树
-        BSTNoode<T> y = node.parent;
-        BSTNoode<T> x = node;
+        BTNoode<T> y = node.parent;
+        BTNoode<T> x = node;
         while (y != null){
             if(y.left == x){
                 return y;
@@ -208,11 +167,11 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @param node
      * @return 最小节点
      */
-    private BSTNoode<T> min(BSTNoode<T> node) {
+    private BTNoode<T> min(BTNoode<T> node) {
         if(node.left == null){
             return node;
         }
-        BSTNoode<T> x = node.left;
+        BTNoode<T> x = node.left;
         while (x.left != null){
             x = x.left;
         }
@@ -224,11 +183,11 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @param node
      * @return
      */
-    private BSTNoode<T> max(BSTNoode<T> node){
+    private BTNoode<T> max(BTNoode<T> node){
         if(node.right == null){
             return node;
         }
-        BSTNoode<T> x = node.right;
+        BTNoode<T> x = node.right;
         while (x.right != null){
             x = x.right;
         }
@@ -240,8 +199,8 @@ public class BinarySearchTree<T extends Comparable<T>>{
      * @param value 待查询的值
      * @return
      */
-    private BSTNoode<T> search(T value){
-        BSTNoode<T> x = this.root;
+    private BTNoode<T> search(T value){
+        BTNoode<T> x = this.root;
         while(x != null){
             if(value.compareTo(x.value) > 0){
                 x = x.right;
@@ -255,42 +214,13 @@ public class BinarySearchTree<T extends Comparable<T>>{
         }
         return x;
     }
-    static class BSTNoode<T extends Comparable<T>>{
-        T value;
-        BSTNoode<T> parent;
-        BSTNoode<T> left;
-        BSTNoode<T> right;
-        BSTNoode(T value, BSTNoode<T> l, BSTNoode<T> r, BSTNoode<T> p){
-            this.value = value;
-            this.parent = p;
-            this.left = l;
-            this.right = r;
-        }
-        public T getValue() {
-            return value;
-        }
-        public void setValue(T value){
-            this.value = value;
-        }
-        public String toString(){
-            return "value:" + value;
-        }
-    }
 
     public static void main(String[] args) {
-        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<Integer>();
-        BSTNoode<Integer> node = new BSTNoode<Integer>(7,null,null,null);
-        binarySearchTree.insert(5);
-        binarySearchTree.insert(1);
-//        binarySearchTree.insert(7);
-        binarySearchTree.insert(binarySearchTree, node);
-        binarySearchTree.insert(9);
-        binarySearchTree.insert(2);
-        binarySearchTree.insert(3);
-        binarySearchTree.insert(10);
-        binarySearchTree.insert(8);
-        binarySearchTree.insert(4);
-        binarySearchTree.insert(6);
+        int[] arrays = {5, 1, 7, 8,2,3,4,11,15,12,6};
+        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>();
+        for(int i : arrays){
+            binarySearchTree.insert(i);
+        }
         System.out.println("----------preTraver---------");
         binarySearchTree.preTraver();
         System.out.println("----------------------------");
@@ -300,11 +230,10 @@ public class BinarySearchTree<T extends Comparable<T>>{
         System.out.println("----------postTraver---------");
         binarySearchTree.postTraver();
         System.out.println("----------------------------");
-        System.out.println("7的后继节点为" + binarySearchTree.successor(node).getValue());
-        binarySearchTree.remove(1);
-        System.out.println("----------midTraver---------");
-        binarySearchTree.midTraver();
-        System.out.println("----------------------------");
+        System.out.println("----------广度优先遍历--------");
+        binarySearchTree.BFS();
+        System.out.println("----------深度优先遍历--------");
+        binarySearchTree.DFS();
 
     }
 }

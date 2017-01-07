@@ -12,44 +12,42 @@ package org.lzh.algorithm;
  * @author lzh
  * @create 2016-12-29 14:30
  */
-public class AVLTree<T extends Comparable<T>> {
+public class AVLTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
+    AVLTree(){
+        super();
+    }
 
-    AVLTreeNode<T> root;
+    @Override
+    public void insert(T v) {
+
+    }
+
+    @Override
+    public void remove(T v) {
+
+    }
 
     /**
      * LeftLeft情况的旋转
      * @param node
      */
-    private void llRotation(AVLTreeNode<T> node){}
+    private void llRotation(BTNoode<T> node){}
 
     /**
      * RightRight情况的旋转
      * @param node
      */
-    private void rrRotation(AVLTreeNode<T> node){}
+    private void rrRotation(BTNoode<T> node){}
 
     /**
      * LeftRight情况的旋转
      * @param node
      */
-    private void lrRotation(AVLTreeNode<T> node){}
+    private void lrRotation(BTNoode<T> node){}
 
     /**
      * RightLeft情况的旋转
      * @param node
      */
-    private void rlRotation(AVLTreeNode<T> node){}
-    class AVLTreeNode<T extends Comparable<T>>{
-        T value;
-        int height;
-        AVLTreeNode<T> left;
-        AVLTreeNode<T> right;
-
-        public AVLTreeNode(T value, AVLTreeNode<T> left, AVLTreeNode<T> right){
-            this.value = value;
-            this.height = 0;
-            this.left = left;
-            this.right = right;
-        }
-    }
+    private void rlRotation(BTNoode<T> node){}
 }
