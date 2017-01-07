@@ -26,28 +26,78 @@ public class AVLTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
     public void remove(T v) {
 
     }
+    /**
+     * LeftLeft情况的旋转，返回旋转后的根节点
+     * @param node 旋转前根节点（相对）
+     * @return node2 旋转后根节点
+     */
+    private AVLTreeNode<T> llRotation(AVLTreeNode<T> node){
+        AVLTreeNode<T> node2 = (AVLTreeNode<T>) node.left;
+        node.left = node2.right;
+        node2.right = node;
+
+        node.height = max(height((AVLTreeNode<T>) node.left), height((AVLTreeNode<T>) node.right)) + 1;
+        node2.height = max(height((AVLTreeNode<T>) node2.left), height(node)) + 1;
+        return node2;
+    }
 
     /**
-     * LeftLeft情况的旋转
-     * @param node
+     * RightRight情况的旋转，返回旋转后的根节点
+     * @param node 旋转前根节点（相对）
+     * @return node2 旋转后根节点
      */
-    private void llRotation(BTNoode<T> node){}
+    private AVLTreeNode<T> rrRotation(AVLTreeNode<T> node){
+        AVLTreeNode<T> node2 = (AVLTreeNode<T>) node.right;
+        node.right = node2.left;
+        node2.left = node;
 
-    /**
-     * RightRight情况的旋转
-     * @param node
-     */
-    private void rrRotation(BTNoode<T> node){}
+        node.height = max(height((AVLTreeNode<T>) node.left), height((AVLTreeNode<T>) node.right)) + 1;
+        node2.height = max(height((AVLTreeNode<T>) node2.right), height(node)) + 1;
+        return node2;
+    }
 
     /**
      * LeftRight情况的旋转
-     * @param node
+     * @param node 旋转前根节点（相对）
+     * @return node2 旋转后根节点
      */
-    private void lrRotation(BTNoode<T> node){}
+    private AVLTreeNode<T> lrRotation(AVLTreeNode<T> node){
+        node.left = rrRotation((AVLTreeNode<T>) node.left);
+        return llRotation(node);
+    }
 
     /**
      * RightLeft情况的旋转
-     * @param node
+     * @param node 旋转前根节点（相对）
+     * @return node2 旋转后根节点
      */
-    private void rlRotation(BTNoode<T> node){}
+    private AVLTreeNode<T> rlRotation(AVLTreeNode<T> node){
+        node.right = llRotation((AVLTreeNode<T>) node.right);
+        return rrRotation(node);
+    }
+
+    /**
+     * 比较a b的大小
+     * @param a
+     * @param b
+     * @return 较大的数
+     */
+    private int max(int a, int b){
+        return a > b ? a : b;
+    }
+    private int height(AVLTreeNode<T> node){
+        if(node != null){
+            return node.height;
+        }
+        return 0;
+    }
+
+    class AVLTreeNode<T extends Comparable<T>> extends BTNoode<T>{
+        int height;
+
+        public AVLTreeNode(T value, BTNoode<T> parent, BTNoode<T> left, BTNoode<T> right){
+            super(value, left, right, parent);
+            this.height = 0;
+        }
+    }
 }
