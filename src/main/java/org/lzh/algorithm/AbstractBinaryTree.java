@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * @author lzh
  * @create 2017-01-07 15:32
  */
-public abstract class AbstractBinaryTree <T>{
+public abstract class AbstractBinaryTree <T extends Comparable<T>>{
     protected BTNoode<T> root;
     AbstractBinaryTree(){
         this.root = null;
@@ -118,7 +118,7 @@ public abstract class AbstractBinaryTree <T>{
             }
         }
     }
-    class BTNoode<T>{
+    class BTNoode<T extends Comparable<T>> implements Comparable<BTNoode<T>> {
         T value;
         BTNoode<T> parent;
         BTNoode<T> left;
@@ -137,6 +137,11 @@ public abstract class AbstractBinaryTree <T>{
         }
         public String toString(){
             return "value:" + value;
+        }
+
+        @Override
+        public int compareTo(BTNoode<T> o) {
+            return this.getValue().compareTo(o.getValue());
         }
     }
 }

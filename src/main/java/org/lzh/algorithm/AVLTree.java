@@ -13,8 +13,9 @@ package org.lzh.algorithm;
  * @create 2016-12-29 14:30
  */
 public class AVLTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
+    private AVLTreeNode<T> root;
     AVLTree(){
-        super();
+        this.root = null;
     }
 
     @Override
@@ -32,12 +33,12 @@ public class AVLTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
      * @return node2 旋转后根节点
      */
     private AVLTreeNode<T> llRotation(AVLTreeNode<T> node){
-        AVLTreeNode<T> node2 = (AVLTreeNode<T>) node.left;
+        AVLTreeNode<T> node2 = node.left;
         node.left = node2.right;
         node2.right = node;
 
-        node.height = max(height((AVLTreeNode<T>) node.left), height((AVLTreeNode<T>) node.right)) + 1;
-        node2.height = max(height((AVLTreeNode<T>) node2.left), height(node)) + 1;
+        node.height = max(height(node.left), height(node.right)) + 1;
+        node2.height = max(height(node2.left), height(node)) + 1;
         return node2;
     }
 
@@ -47,12 +48,12 @@ public class AVLTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
      * @return node2 旋转后根节点
      */
     private AVLTreeNode<T> rrRotation(AVLTreeNode<T> node){
-        AVLTreeNode<T> node2 = (AVLTreeNode<T>) node.right;
+        AVLTreeNode<T> node2 = node.right;
         node.right = node2.left;
         node2.left = node;
 
-        node.height = max(height((AVLTreeNode<T>) node.left), height((AVLTreeNode<T>) node.right)) + 1;
-        node2.height = max(height((AVLTreeNode<T>) node2.right), height(node)) + 1;
+        node.height = max(height(node.left), height(node.right)) + 1;
+        node2.height = max(height(node2.right), height(node)) + 1;
         return node2;
     }
 
@@ -62,7 +63,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
      * @return node2 旋转后根节点
      */
     private AVLTreeNode<T> lrRotation(AVLTreeNode<T> node){
-        node.left = rrRotation((AVLTreeNode<T>) node.left);
+        node.left = rrRotation(node.left);
         return llRotation(node);
     }
 
@@ -72,7 +73,7 @@ public class AVLTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
      * @return node2 旋转后根节点
      */
     private AVLTreeNode<T> rlRotation(AVLTreeNode<T> node){
-        node.right = llRotation((AVLTreeNode<T>) node.right);
+        node.right = llRotation(node.right);
         return rrRotation(node);
     }
 
@@ -92,11 +93,15 @@ public class AVLTree<T extends Comparable<T>> extends AbstractBinaryTree<T>{
         return 0;
     }
 
-    class AVLTreeNode<T extends Comparable<T>> extends BTNoode<T>{
+    class AVLTreeNode<T extends Comparable<T>>{
         int height;
-
-        public AVLTreeNode(T value, BTNoode<T> parent, BTNoode<T> left, BTNoode<T> right){
-            super(value, left, right, parent);
+        AVLTreeNode<T> parent;
+        AVLTreeNode<T> left;
+        AVLTreeNode<T> right;
+        public AVLTreeNode(T value, AVLTreeNode<T> parent, AVLTreeNode<T> left, AVLTreeNode<T> right){
+            this.parent = parent;
+            this.left = left;
+            this.right = right;
             this.height = 0;
         }
     }
