@@ -10,7 +10,7 @@ import org.junit.Test;
  * @create 2017-01-08 16:27
  */
 public class MinHeapTest {
-    private Heap<Integer> minHeap = new MinHeap<>();
+    private BinaryHeap<Integer> minHeap = new MinHeap<>();
 
     @Before
     public void init(){

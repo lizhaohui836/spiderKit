@@ -10,7 +10,7 @@ import org.junit.Test;
  * @create 2017-01-08 17:24
  */
 public class MaxHeapTest {
-    private Heap<Integer> maxHeap = new MaxHeap<>();
+    private BinaryHeap<Integer> maxHeap = new MaxHeap<>();
 
     @Before
     public void init(){
