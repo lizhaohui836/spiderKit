@@ -11,7 +11,7 @@ import java.util.List;
  * @author lzh
  * @create 2017-01-08 16:47
  */
-public class MaxHeap<T extends Comparable<T>> implements Heap<T>{
+public class MaxHeap<T extends Comparable<T>> implements BinaryHeap<T> {
     private List<T> maxHeap;
     MaxHeap(){
         this.maxHeap = new ArrayList<T>();

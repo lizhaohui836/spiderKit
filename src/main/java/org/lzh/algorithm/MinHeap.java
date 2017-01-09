@@ -12,7 +12,7 @@ import java.util.List;
  * @author lzh
  * @create 2017-01-08 14:49
  */
-public class MinHeap<T extends Comparable<T>> implements Heap<T> {
+public class MinHeap<T extends Comparable<T>> implements BinaryHeap<T> {
     private List<T> minHeap;
     MinHeap(){
         this.minHeap = new ArrayList<T>();
